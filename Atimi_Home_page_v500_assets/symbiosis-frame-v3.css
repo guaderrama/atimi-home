@@ -1,0 +1,36 @@
+/* Atimi Symbiosis v3 — recuadro del logo dentro del hero de Atimi (23/09/2026).
+ * El mount conserva EXACTAMENTE la caja que el diseño de Atimi le da (sus min-height por
+ * breakpoint); el iframe es un cuadrado del ancho de la columna, centrado en vertical y
+ * posicionado en absoluto, así que no cambia la maquetación del hero (lo que sí hacía el
+ * aspect-ratio en el mount de la v2).
+ * Fondo: transparente, y color-scheme dark en el iframe Y en su documento. Si los dos
+ * esquemas no coinciden, el navegador pinta el iframe opaco (blanco) aunque su documento
+ * sea transparente. La página de Atimi ya declara color-scheme dark. */
+[data-atimi-symbiosis-mount]{position:relative;min-width:0}
+.atimi-symbiosis-frame{
+  position:absolute;left:0;top:50%;
+  width:100%;aspect-ratio:1/1;height:auto;
+  transform:translateY(-50%);
+  display:block;border:0;background:transparent;color-scheme:dark;
+}
+.atimi-symbiosis-poster{
+  position:absolute;left:0;top:50%;width:100%;height:auto;
+  transform:translateY(-50%);pointer-events:none;
+}
+/* 27/09/2026 (auditoría de entrega). El cuadrado del ancho de la columna se salía de la caja que el
+   diseño de Atimi le da al logo, y en ≤760 px tapaba el subtítulo y el botón «Explore our services»
+   (el clic no llegaba entre ~440 y 760 px, ni con zoom al 175-200 %). Ahora el cuadrado no pasa del
+   alto de esa caja más sus dos márgenes de 24 px (el del logo y el del botón), centrado con márgenes
+   (no con transform, que el @supports de abajo anula). Las cifras copian los min-height de Atimi
+   (.hero-animation-mount en su <style>): si Atimi los cambia, hay que actualizarlas aquí.
+   En ≥981 px el mismo tope evita que en portátiles bajos (1366x657, 1280x609…) el logo se salga de su
+   caja hasta pegarse al menú; en pantallas altas no cambia (1440x900: 597 → 595 px). */
+@media (max-width:760px){
+  .atimi-symbiosis-frame,.atimi-symbiosis-poster{width:min(100%,calc(clamp(330px,48svh,430px) + 48px));right:0;margin-inline:auto}
+}
+@media (min-width:981px){
+  .atimi-symbiosis-frame,.atimi-symbiosis-poster{width:min(100%,calc(clamp(500px,63svh,720px) * 1.16));right:0;margin-inline:auto}
+}
+@supports not (aspect-ratio:1/1){
+  .atimi-symbiosis-frame{top:0;height:100%;transform:none}
+}

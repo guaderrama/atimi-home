@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en" class="no-js" data-release-version="4" data-release-updated="2026-09-23">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <script>document.documentElement.className='js';(function(p){if(p.get('controls')==='external'){var d=document.documentElement;d.classList.add('lg-external-controls');d.dataset.background='transparent';}})(new URLSearchParams(location.search));</script>
+  <title>Living Growth V4 | Interactive Atimi Concept</title>
+  <meta name="description" content="The latest hand-, touch-, and mouse-controlled Atimi eucalyptus growth experience with a transparent botanical sequence.">
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="canonical" href="https://ivanguaderrama.studio/concepts/atimi/final/">
+  <meta name="theme-color" content="#030a11">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Atimi | Living Growth V4">
+  <meta property="og:description" content="Open your hand or drag to grow the latest transparent eucalyptus animation.">
+  <meta property="og:url" content="https://ivanguaderrama.studio/concepts/atimi/final/">
+  <meta property="og:image" content="https://ivanguaderrama.studio/concepts/atimi/living-growth-v4/previews/living-growth-v4.jpg">
+  <meta property="og:image:alt" content="Living Growth V4 interactive eucalyptus at its mature stage">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+  <link rel="preload" as="image" href="frames/transparent/mobile/frame-0001.webp?v=3" type="image/webp" media="(max-width:520px)" fetchpriority="high">
+  <link rel="preload" as="image" href="frames/transparent/desktop/frame-0001.webp?v=3" type="image/webp" media="(min-width:521px)" fetchpriority="high">
+  <meta name="color-scheme" content="dark">
+  <link rel="stylesheet" href="plant-experience.css?v=13">
+  <link rel="stylesheet" href="theme.css?v=1">
+ <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"CreativeWork",
+    "name":"Atimi Living Growth V4",
+    "description":"A transparent eucalyptus growth study controlled locally by hand tracking, touch, pointer, or keyboard.",
+    "url":"https://ivanguaderrama.studio/concepts/atimi/final/",
+    "inLanguage":"en",
+    "creator":{"@type":"Organization","name":"Ivan Guaderrama Studio","url":"https://ivanguaderrama.studio/"},
+    "about":{"@type":"Organization","name":"Atimi"}
+  }
+  </script>
+</head>
+<body>
+  <div id="experience">
+    <section class="living-experience">
+      <span class="sr-only" id="experienceTitle">Interactive eucalyptus growth</span>
+
+      <p class="growth-callout">
+        <span>Growth is in your hands</span>
+        <svg viewBox="0 0 54 42" aria-hidden="true" focusable="false">
+          <path d="M50 5C39 4 29 9 24 17C20 23 18 28 14 34"/>
+          <path d="M14 34L15 25M14 34L23 32"/>
+        </svg>
+      </p>
+
+      <figure class="living-visual" id="growthStage" data-input-mode="idle" tabindex="0" role="slider" aria-label="Eucalyptus growth" aria-describedby="plantDescription growthHelp" aria-orientation="vertical" aria-valuemin="8" aria-valuemax="100" aria-valuenow="8" aria-valuetext="8 percent grown">
+        <div class="plant-media" id="plantMedia">
+          <picture>
+            <source media="(max-width:520px)" srcset="frames/transparent/mobile/frame-0001.webp?v=3">
+            <img class="plant-poster" id="plantPoster" src="frames/transparent/desktop/frame-0001.webp?v=3" width="1400" height="1050" alt="" aria-hidden="true" fetchpriority="high" decoding="async">
+          </picture>
+          <canvas class="plant-scene" id="plantScene" width="800" height="900" role="img" aria-labelledby="plantTitle plantDescription"></canvas>
+          <video class="plant-loop" id="adultLoop" tabindex="-1" muted loop playsinline preload="none" aria-hidden="true"></video>
+        </div>
+        <span class="sr-only" id="plantTitle">A eucalyptus plant growing from a young sprout into a mature tree</span>
+        <span class="sr-only" id="plantDescription">A young eucalyptus sprout is ready to grow in response to your hand or touch.</span>
+
+        <div class="hand-signal" id="handSignal" aria-hidden="true">
+          <span class="palm"></span>
+          <i class="finger finger-a"></i><i class="finger finger-b"></i><i class="finger finger-c"></i><i class="finger finger-d"></i><i class="finger finger-e"></i>
+          <b></b><b></b><b></b><b></b><b></b>
+        </div>
+
+        <p class="sequence-status" id="sequenceStatus" aria-hidden="true"></p>
+      </figure>
+
+      <div class="mode-instructions" id="modeInstructions" aria-label="How to grow the tree">
+        <section class="mode-instruction mode-instruction-hand" id="handInstructions" data-mode-instruction="camera" aria-hidden="false">
+          <span class="mode-instruction-label">Use hand control</span>
+          <ol id="handInstructionSteps">
+            <li>Click on Use hand control</li>
+            <li>Enable camera</li>
+            <li>Close and open your hand</li>
+          </ol>
+        </section>
+        <section class="mode-instruction mode-instruction-touch" id="touchInstructions" data-mode-instruction="touch" aria-hidden="false">
+          <span class="mode-instruction-label">Use touch</span>
+          <p id="touchInstructionCopy">Slide your finger/<br>mouse up or down</p>
+        </section>
+      </div>
+
+      <div class="growth-console" id="growthConsole">
+        <div class="primary-controls" role="group" aria-label="Interaction modes">
+          <button class="control-button control-button-primary" id="enableCamera" type="button" aria-controls="growthStage" aria-describedby="handInstructionSteps privacyNote" aria-pressed="false">
+            <span class="control-label">Use hand control</span>
+          </button>
+          <button class="control-button control-button-secondary" id="useTouch" type="button" aria-controls="growthStage" aria-describedby="touchInstructionCopy" aria-pressed="false">
+            <span class="control-label">Use touch</span>
+          </button>
+          <button class="control-button control-button-primary" id="stopCamera" type="button" aria-controls="growthStage" aria-describedby="privacyNote" hidden><span class="control-label">Stop hand control</span></button>
+        </div>
+        <p class="privacy-note">
+          <span id="privacyNote">Hand tracking runs in this browser. Nothing is recorded or uploaded.</span>
+          <span class="experience-version">
+            <span class="sr-only">Living Growth version 4, updated <time datetime="2026-09-23">23 September 2026</time>.</span>
+            <span class="version-long" aria-hidden="true">Living Growth V4 · <time datetime="2026-09-23">Updated 23 Sep 2026</time></span>
+            <span class="version-short" aria-hidden="true">V4 · <time datetime="2026-09-23">23 Sep 2026</time></span>
+          </span>
+        </p>
+      </div>
+
+      <span class="sr-only" id="growthHelp">Drag upward or downward on the tree, or use the arrow keys, to control its growth.</span>
+      <p class="system-status" id="systemStatus" role="status" aria-live="polite" aria-atomic="true"><span></span></p>
+      <p class="completion-line sr-only" id="completionLine" aria-hidden="true">Built together. Ready to evolve.</p>
+      <video id="cameraFeed" class="camera-feed" tabindex="-1" autoplay playsinline muted aria-hidden="true"></video>
+      <p class="sr-only" id="announcer" aria-live="polite"></p>
+    </section>
+  </div>
+
+  <noscript><p class="noscript-note">This interactive study needs JavaScript for camera and touch control. The rooted starting state is shown above.</p></noscript>
+  <script type="module" src="plant-experience.js?v=18"></script>
+</body>
+</html>

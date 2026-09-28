@@ -1,0 +1,173 @@
+/* Living Growth V4 dentro del diseño de Atimi (24/09/2026).
+   Todo lo visible es de Atimi (su marco, sus instrucciones, sus botones y su "Growth is in your
+   hands"); aquí se pone el árbol animado dentro de su marco y se pasan sus acentos lima a los tonos
+   del resto de su página (ver "Colores" más abajo). El marco NO lleva fondo propio: se ve el fondo de
+   la home detrás del árbol (pedido de Miguel, 24/09; antes llevaba el verde profundo de su imagen fija
+   y, debajo, el --color-dark-page-evolution de su template). */
+#digital-evolution .atimi-living-growth-live .living-growth-image {
+  position: relative !important;
+  /* Su maqueta era una imagen fija y apaga el puntero en todo el bloque: el árbol lo necesita. */
+  pointer-events: auto !important;
+  background: transparent !important;
+}
+
+/* La imagen fija se oculta (conserva su hueco para que el marco no cambie de tamaño). */
+#digital-evolution .atimi-living-growth-live .living-growth-image > img {
+  visibility: hidden;
+}
+
+#digital-evolution .atimi-living-growth-frame {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: transparent;
+  color-scheme: dark;
+  pointer-events: auto !important;
+}
+
+/* Colores: toda la sección va en el verde lima del diseño de Atimi, como en su original (pedido de Miguel,
+   25/09/2026; del 24 al 25/09 estuvo en sus tonos azules). Sus propias reglas ponen el lima de los textos,
+   la flecha y los títulos de las instrucciones; aquí solo se definen los colores de los botones, porque sus
+   estados (elegido, hover, foco) los maneja esta hoja. Mismos valores que su CSS original. */
+#digital-evolution .atimi-living-growth-live {
+  --lg-boton-lima: #CEFB04;
+  --lg-boton-lima-tinta: #101607;
+}
+
+/* Dos aspectos: RELLENO y CONTORNO, en el verde lima de sus botones. Sin nada elegido, "Use hand
+   control" va relleno y "Use touch" en contorno, como en su diseño. Al elegir un modo, el botón
+   ELEGIDO pasa a relleno y el otro a contorno, para que se sepa cuál está activo. La elección la
+   marcan sus propios atributos (data-living-instructions-selected + data-living-growth-mode). */
+#digital-evolution .atimi-living-growth-live button.living-growth-control[data-living-mode="hand"],
+#digital-evolution .atimi-living-growth-live[data-living-instructions-selected="true"][data-living-growth-mode="touch"] button.living-growth-control[data-living-mode="touch"] {
+  --lg-look-bg: var(--lg-boton-lima);
+  --lg-look-bg-hover: var(--lg-boton-lima);
+  --lg-look-ink: var(--lg-boton-lima-tinta);
+  --lg-look-border: var(--lg-boton-lima);
+  --lg-look-shadow: inset 0 0 0 1px rgb(16 22 7 / 24%);
+  --lg-look-shadow-hover: inset 0 0 0 3px var(--lg-boton-lima-tinta);
+}
+#digital-evolution .atimi-living-growth-live button.living-growth-control[data-living-mode="touch"],
+#digital-evolution .atimi-living-growth-live[data-living-instructions-selected="true"][data-living-growth-mode="touch"] button.living-growth-control[data-living-mode="hand"] {
+  --lg-look-bg: transparent;
+  --lg-look-bg-hover: transparent;
+  --lg-look-ink: var(--lg-boton-lima);
+  --lg-look-border: var(--lg-boton-lima);
+  --lg-look-shadow: inset 0 0 0 0 var(--lg-boton-lima);
+  --lg-look-shadow-hover: inset 0 0 0 2px var(--lg-boton-lima);
+}
+
+/* El selector repite la clase para ganarle a sus reglas con !important y [aria-pressed]. */
+#digital-evolution .atimi-living-growth-live.atimi-living-growth-live button.living-growth-control[data-living-mode] {
+  border: 1px solid var(--lg-look-border) !important;
+  background: var(--lg-look-bg) !important;
+  color: var(--lg-look-ink) !important;
+  box-shadow: var(--lg-look-shadow) !important;
+  transform: none !important;
+  transition: box-shadow .32s ease, border-color .32s ease, color .22s ease !important;
+}
+#digital-evolution .atimi-living-growth-live.atimi-living-growth-live button.living-growth-control[data-living-mode]:is(:hover, :focus-visible) {
+  border-color: var(--lg-look-border) !important;
+  background: var(--lg-look-bg-hover) !important;
+  color: var(--lg-look-ink) !important;
+  box-shadow: var(--lg-look-shadow-hover) !important;
+}
+#digital-evolution .atimi-living-growth-live.atimi-living-growth-live button.living-growth-control[data-living-mode]:focus-visible {
+  outline: 2px solid var(--lg-boton-lima) !important;
+  outline-offset: 3px !important;
+}
+
+/* En teléfono su CSS quiere los dos botones a 14 px con 12 px a los lados, pero su regla del botón
+   pulsado ([aria-pressed="true"], más específica) le gana: el pulsado quedaba a 16 px y en dos
+   renglones, y al cambiar de modo los tamaños se intercambiaban y el panel saltaba 21 px. */
+@media (max-width: 520px) {
+  #digital-evolution .atimi-living-growth-live.atimi-living-growth-live button.living-growth-control[data-living-mode] {
+    min-height: 48px !important;
+    padding-inline: 12px !important;
+    font-size: 14px !important;
+  }
+}
+
+/* Si la experiencia no carga, vuelve a verse la imagen fija de Atimi. */
+#digital-evolution .atimi-living-growth-live.lg-error .living-growth-image > img {
+  visibility: visible;
+}
+#digital-evolution .atimi-living-growth-live.lg-error .atimi-living-growth-frame {
+  display: none;
+}
+
+/* Sin marco (pedido de Azadeh, 26/09/2026): se quitan la línea fina, la sombra y el degradado oscuro
+   que el template de Atimi pone alrededor y debajo de la experiencia. La línea se vuelve transparente
+   en vez de quitarse, para que nada se mueva ni 1 px. Para volver al marco, borrar este bloque.
+   Si la experiencia no carga (lg-error) vuelve el diseño original de Atimi completo, con su marco y
+   su degradado sobre la imagen fija (27/09/2026). */
+#digital-evolution .atimi-living-growth-live:not(.lg-error) .living-growth-image {
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+#digital-evolution .atimi-living-growth-live:not(.lg-error) .living-growth-mode-instructions {
+  background: none !important;
+}
+
+/* Instrucción de toque en pasos (26/09/2026; la escribe living-growth-integration.js). Va alineada a
+   la derecha como el texto original de Atimi, con el número pegado a cada paso. */
+#digital-evolution .atimi-living-growth-live .atimi-living-growth-touch-steps {
+  margin-left: auto !important;
+  max-width: 27ch;
+  padding-left: 0;
+  list-style-position: inside;
+}
+
+/* Teléfono (≤520 px, 26/09/2026): el árbol crecido llena todo el cuadro y su tierra queda justo donde
+   van las instrucciones, que tapaban la base de la planta. Sin marco ya no tienen que ir encima: pasan
+   debajo del árbol, antes de los botones. El árbol no cambia de tamaño ni de lugar (sigue siendo el
+   mismo cuadro). Si la experiencia no carga (lg-error), queda el diseño original sobre su imagen fija. */
+@media (max-width: 520px) {
+  #digital-evolution .atimi-living-growth-live:not(.lg-error) .living-growth-image {
+    display: grid !important;
+    aspect-ratio: auto !important;
+    overflow: visible !important;
+  }
+  #digital-evolution .atimi-living-growth-live:not(.lg-error) .living-growth-image > img,
+  #digital-evolution .atimi-living-growth-live:not(.lg-error) .living-growth-image > .atimi-living-growth-frame {
+    grid-area: 1 / 1;
+    position: relative;
+    inset: auto;
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 1 / 1 !important;
+  }
+  /* La tierra del árbol termina siempre al 78 % de su cuadro (medido de 320 a 520 px, pequeño, crecido
+     y al máximo): el 22 % de abajo va vacío. Las instrucciones suben un 20 % del ancho (= del alto del
+     cuadro) para quedar justo debajo de la tierra, sin tocarla. No reciben toques (pointer-events:none
+     de Atimi): el dedo sigue llegando al árbol. */
+  #digital-evolution .atimi-living-growth-live:not(.lg-error) .living-growth-mode-instructions {
+    position: relative !important;
+    grid-area: 2 / 1;
+    margin-top: -20% !important;
+    padding: 16px 0 0 !important;
+  }
+  #digital-evolution .atimi-living-growth-live .atimi-living-growth-touch-steps {
+    max-width: 20ch;
+  }
+}
+
+/* Su leyenda (figcaption.sr-only) es solo para lectores de pantalla, pero la página de Atimi no define
+   .sr-only: la escondía el recorte del marco. Con las instrucciones fuera del cuadro (teléfono) quedaba a
+   la vista, así que se oculta a la vista aquí, en todos los tamaños, sin quitársela a los lectores. */
+#digital-evolution .atimi-living-growth-live .living-growth-image > figcaption {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}

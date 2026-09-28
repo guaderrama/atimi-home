@@ -1,0 +1,48 @@
+/* ==========================================================================
+   Living Growth — BUTTON THEME
+   Edit ONLY the values below to match Atimi's buttons. Nothing else needs to change.
+   The defaults reproduce the current design exactly (lime pill buttons).
+
+   IMPORTANT (27/09/2026): these buttons only appear when living-growth/ is opened on its own.
+   On Atimi's home page (controls=external) they are hidden: the visible buttons are Atimi's own,
+   and their colours are set with --lg-boton-lima and --lg-boton-lima-tinta on
+   #digital-evolution .atimi-living-growth-live (living-growth-integration.css).
+   Nothing is copied from the host page into this file.
+
+   Custom font for the standalone page: if the font is not Inter, load it here
+   (e.g. @import url("…fonts css…"); at the top of this file).
+   ========================================================================== */
+:root{
+  /* Typography */
+  --lg-button-font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --lg-button-font-size: 14px;          /* wide layout */
+  --lg-button-font-size-mobile: 13px;   /* when the experience is 720px wide or less */
+  --lg-button-font-weight: 600;
+  --lg-button-letter-spacing: .01em;
+  --lg-button-text-transform: none;     /* e.g. uppercase */
+
+  /* Shape */
+  --lg-button-height: 52px;
+  --lg-button-height-mobile: 48px;
+  --lg-button-radius: 999px;            /* 999px = pill, 0 = square corners */
+  --lg-button-border-width: 1px;
+
+  /* Normal state */
+  --lg-button-text: #CEFB04;
+  --lg-button-background: transparent;
+  --lg-button-border: #CEFB04;
+
+  /* Hover and keyboard focus */
+  --lg-button-hover-background: rgba(206,251,4,.06);
+  --lg-button-hover-ring: #CEFB04;      /* inner outline shown on hover */
+
+  /* Selected button (the active control mode) */
+  --lg-button-active-text: #101607;
+  --lg-button-active-background: #CEFB04;
+  --lg-button-active-border: #CEFB04;
+  --lg-button-active-ring: rgba(16,22,7,.45);
+  --lg-button-active-hover-ring: #101607;
+
+  /* Keyboard focus outline (accessibility: keep it clearly visible) */
+  --lg-button-focus-outline: #CEFB04;
+}
