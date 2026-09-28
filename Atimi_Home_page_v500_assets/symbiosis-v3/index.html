@@ -6,7 +6,7 @@
 <meta name="color-scheme" content="dark">
 <title>Atimi Symbiosis</title>
 <meta name="atimi-symbiosis-version" content="3">
-<meta name="atimi-symbiosis-updated" content="2026-09-23">
+<meta name="atimi-symbiosis-updated" content="2026-09-28">
 <meta name="robots" content="noindex,nofollow">
 <meta name="ext-resource-dependency" content="./assets/banano-vertical.png" data-resource-id="leaf_banano_vertical_png" />
 <meta name="ext-resource-dependency" content="./assets/banano-diag.png" data-resource-id="leaf_banano_diag_png" />
@@ -75,6 +75,10 @@ document.addEventListener('mousedown', function (e) {
 .sc-logic-error,.sc-placeholder{display:none!important}
 /* Pulsación larga en iPhone: sin selección ni menú de copiar sobre el logo (27/09/2026). */
 body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+/* Fluidez en Safari (28/09/2026): las líneas desenfocadas (data-v="lines") y los datos que se mueven sin parar
+   (números y puntos, data-v="data") van en dos SVG hermanos con la misma clase y la misma máscara: lo que se
+   mueve ya no obliga a repintar el desenfoque en cada cuadro. Los valores de la animación llevan style="" y no
+   atributos SVG con var()/calc(), que Firefox (y quizá Safari) no aplican. */
 </style>
 </head>
 <body>
@@ -107,7 +111,7 @@ body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 
   <div ref="{{ stage }}" onPointerMove="{{ onStageMove }}" onPointerLeave="{{ onStageLeave }}" onPointerDown="{{ onStageDown }}" style="position:relative;width:min(100vw, 100vh);max-width:1100px;aspect-ratio:1/1;overflow:hidden;touch-action:pan-x pan-y pinch-zoom">
 
-    <svg class="sym-lines" viewBox="0 0 1000 1000" style="position:absolute;left:-6%;top:-6%;width:112%;height:112%;z-index:1;overflow:hidden;opacity:calc(1 - 0.45 * var(--fade,0));filter:brightness(calc(1 + 0.5 * var(--spark,0)))">
+    <svg class="sym-lines" data-v="lines" viewBox="0 0 1000 1000" style="position:absolute;left:-6%;top:-6%;width:112%;height:112%;z-index:1;overflow:hidden;opacity:calc(1 - 0.45 * var(--fade,0));filter:var(--sparkf,none)">
       <defs>
         <radialGradient id="flowFade" gradientUnits="userSpaceOnUse" cx="500" cy="500" r="640">
           <stop offset="0" stop-color="#22D3EE" stop-opacity="0.04"></stop>
@@ -124,17 +128,20 @@ body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
         </filter>
       </defs>
       <g fill="none" stroke="url(#flowFade)" stroke-width="1.9" stroke-linecap="round" opacity="0.9" filter="url(#flowSoft)">
-        <path d="M 24 946 C 240 820 300 620 470 512" pathLength="1" stroke-dasharray="1" stroke-dashoffset="calc(1 - var(--d1,0))"></path>
-        <path d="M 972 66 C 800 220 700 380 528 486" pathLength="1" stroke-dasharray="1" stroke-dashoffset="calc(1 - var(--d2,0))"></path>
-        <path d="M 498 976 C 508 820 420 640 486 528" pathLength="1" stroke-dasharray="1" stroke-dashoffset="calc(1 - var(--d3,0))"></path>
-        <path d="M 30 44 C 240 180 340 330 478 470" pathLength="1" stroke-dasharray="1" stroke-dashoffset="calc(1 - var(--d4,0))"></path>
-        <path d="M 964 952 C 800 900 650 700 522 540" pathLength="1" stroke-dasharray="1" stroke-dashoffset="calc(1 - var(--d5,0))"></path>
+        <path d="M 24 946 C 240 820 300 620 470 512" pathLength="1" stroke-dasharray="1" style="stroke-dashoffset:var(--kd1,1)"></path>
+        <path d="M 972 66 C 800 220 700 380 528 486" pathLength="1" stroke-dasharray="1" style="stroke-dashoffset:var(--kd2,1)"></path>
+        <path d="M 498 976 C 508 820 420 640 486 528" pathLength="1" stroke-dasharray="1" style="stroke-dashoffset:var(--kd3,1)"></path>
+        <path d="M 30 44 C 240 180 340 330 478 470" pathLength="1" stroke-dasharray="1" style="stroke-dashoffset:var(--kd4,1)"></path>
+        <path d="M 964 952 C 800 900 650 700 522 540" pathLength="1" stroke-dasharray="1" style="stroke-dashoffset:var(--kd5,1)"></path>
       </g>
-      <g transform="translate(263.8,174.7)" font-family="'JetBrains Mono', monospace" font-size="20" font-weight="700" fill="#22D3EE" letter-spacing="0.05em" opacity="calc(0.75 * var(--d1,0) * var(--data,1))"><text data-num="1" x="0" y="0" text-anchor="middle" dominant-baseline="middle" style="transform-origin:0px 0px;animation:numFloatA 7.2s ease-in-out infinite">0.000</text></g>
-      <g transform="translate(181.0,688.0)" font-family="'JetBrains Mono', monospace" font-size="20" font-weight="700" fill="#22D3EE" letter-spacing="0.05em" opacity="calc(0.72 * var(--d2,0) * var(--data,1))"><text data-num="2" x="0" y="0" text-anchor="middle" dominant-baseline="middle" style="transform-origin:0px 0px;animation:numFloatB 8.6s ease-in-out infinite -1.9s">0.00k</text></g>
-      <g transform="translate(822.8,623.7)" font-family="'JetBrains Mono', monospace" font-size="20" font-weight="700" fill="#22D3EE" letter-spacing="0.05em" opacity="calc(0.68 * var(--d3,0) * var(--data,1))"><text data-num="3" x="0" y="0" text-anchor="middle" dominant-baseline="middle" style="transform-origin:0px 0px;animation:numFloatC 6.4s ease-in-out infinite -3.1s">+0.0</text></g>
-      <g transform="translate(831.4,736.2)" font-family="'JetBrains Mono', monospace" font-size="20" font-weight="700" fill="#22D3EE" letter-spacing="0.05em" opacity="calc(0.65 * var(--d4,0) * var(--data,1))"><text data-num="4" x="0" y="0" text-anchor="middle" dominant-baseline="middle" style="transform-origin:0px 0px;animation:numFloatA 9.1s ease-in-out infinite reverse -0.8s">00:00</text></g>
-      <g transform="translate(236.6,818.8)" font-family="'JetBrains Mono', monospace" font-size="18" font-weight="700" fill="#22D3EE" letter-spacing="0.05em" opacity="calc(0.62 * var(--d5,0) * var(--data,1))"><text data-num="5" x="0" y="0" text-anchor="middle" dominant-baseline="middle" style="transform-origin:0px 0px;animation:numFloatB 7.7s ease-in-out infinite reverse -4.3s">n=0</text></g>
+    </svg>
+
+    <svg class="sym-lines" data-v="data" viewBox="0 0 1000 1000" style="position:absolute;left:-6%;top:-6%;width:112%;height:112%;z-index:1;overflow:hidden;opacity:calc(1 - 0.45 * var(--fade,0));filter:var(--sparkf,none)">
+      <g transform="translate(263.8,174.7)" font-family="'JetBrains Mono', monospace" font-size="20" font-weight="700" fill="#22D3EE" letter-spacing="0.05em" style="opacity:calc(0.75 * var(--d1,0) * var(--data,1))"><text data-num="1" x="0" y="0" text-anchor="middle" dominant-baseline="middle" style="transform-origin:0px 0px;animation:numFloatA 7.2s ease-in-out infinite">0.000</text></g>
+      <g transform="translate(181.0,688.0)" font-family="'JetBrains Mono', monospace" font-size="20" font-weight="700" fill="#22D3EE" letter-spacing="0.05em" style="opacity:calc(0.72 * var(--d2,0) * var(--data,1))"><text data-num="2" x="0" y="0" text-anchor="middle" dominant-baseline="middle" style="transform-origin:0px 0px;animation:numFloatB 8.6s ease-in-out infinite -1.9s">0.00k</text></g>
+      <g transform="translate(822.8,623.7)" font-family="'JetBrains Mono', monospace" font-size="20" font-weight="700" fill="#22D3EE" letter-spacing="0.05em" style="opacity:calc(0.68 * var(--d3,0) * var(--data,1))"><text data-num="3" x="0" y="0" text-anchor="middle" dominant-baseline="middle" style="transform-origin:0px 0px;animation:numFloatC 6.4s ease-in-out infinite -3.1s">+0.0</text></g>
+      <g transform="translate(831.4,736.2)" font-family="'JetBrains Mono', monospace" font-size="20" font-weight="700" fill="#22D3EE" letter-spacing="0.05em" style="opacity:calc(0.65 * var(--d4,0) * var(--data,1))"><text data-num="4" x="0" y="0" text-anchor="middle" dominant-baseline="middle" style="transform-origin:0px 0px;animation:numFloatA 9.1s ease-in-out infinite reverse -0.8s">00:00</text></g>
+      <g transform="translate(236.6,818.8)" font-family="'JetBrains Mono', monospace" font-size="18" font-weight="700" fill="#22D3EE" letter-spacing="0.05em" style="opacity:calc(0.62 * var(--d5,0) * var(--data,1))"><text data-num="5" x="0" y="0" text-anchor="middle" dominant-baseline="middle" style="transform-origin:0px 0px;animation:numFloatB 7.7s ease-in-out infinite reverse -4.3s">n=0</text></g>
       <g fill="#A9E6F5" style="opacity:var(--data,1)">
         <circle r="3.8" style="offset-path:path('M 24 946 C 240 820 300 620 470 512');opacity:calc(var(--d1,0) * 0.9);transform-box:fill-box;transform-origin:center;animation:dotPulse 1.7s ease-in-out infinite -0.2s, travelPath 3.4s linear infinite -0.2s"></circle>
         <circle r="3" style="offset-path:path('M 972 66 C 800 220 700 380 528 486');opacity:calc(var(--d2,0) * 0.85);transform-box:fill-box;transform-origin:center;animation:dotPulse 1.9s ease-in-out infinite -0.9s, travelPath 4s linear infinite -0.9s"></circle>
@@ -144,7 +151,7 @@ body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
       </g>
     </svg>
 
-    <svg viewBox="0 0 1000 1000" style="position:absolute;left:-6%;top:-6%;width:112%;height:112%;z-index:90;overflow:hidden;pointer-events:none;opacity:var(--data,1)">
+    <svg data-v="marks" viewBox="0 0 1000 1000" style="position:absolute;left:-6%;top:-6%;width:112%;height:112%;z-index:90;overflow:hidden;pointer-events:none;opacity:var(--data,1)">
       <defs>
         <linearGradient id="arcFadeV" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stop-color="#22D3EE" stop-opacity="0.32"></stop>
@@ -161,52 +168,52 @@ body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
           <stop offset="1" stop-color="#22D3EE" stop-opacity="0.32"></stop>
         </linearGradient>
       </defs>
-      <g transform="translate(200.4,409) rotate(0) scale(8.9286,8.9286)" opacity="calc(0.82 * var(--marks,0))" fill="none" stroke="#22D3EE" stroke-width="0.25" stroke-linecap="round">
+      <g transform="translate(200.4,409) rotate(0) scale(8.9286,8.9286)" style="opacity:calc(0.82 * var(--marks,0))" fill="none" stroke="#22D3EE" stroke-width="0.25" stroke-linecap="round">
         <path d="M 0 0 l 2.8 0" pathLength="1" stroke-dasharray="0.3 1" style="transform-origin:0px 0px;animation:travelGlow 1.8s linear infinite reverse"></path>
       </g>
-      <g transform="translate(467.1,188.8) rotate(0) scale(8.9286,8.9286)" opacity="calc(0.82 * var(--marks,0))" fill="none" stroke="#22D3EE" stroke-width="0.25" stroke-linecap="round">
+      <g transform="translate(467.1,188.8) rotate(0) scale(8.9286,8.9286)" style="opacity:calc(0.82 * var(--marks,0))" fill="none" stroke="#22D3EE" stroke-width="0.25" stroke-linecap="round">
         <path d="M -0.9 0 l 1.8 0 M 0 -0.9 l 0 1.8" style="transform-origin:0px 0px;animation:blinkSoft 8.6s ease-in-out infinite;animation-delay:-2.8s"></path>
       </g>
-      <g transform="translate(711.3,150.5) rotate(0) scale(8.9286,8.9286)" opacity="calc(0.82 * var(--marks,0))" fill="none" stroke="#22D3EE" stroke-width="0.25" stroke-linecap="round">
+      <g transform="translate(711.3,150.5) rotate(0) scale(8.9286,8.9286)" style="opacity:calc(0.82 * var(--marks,0))" fill="none" stroke="#22D3EE" stroke-width="0.25" stroke-linecap="round">
         <path d="M -0.9 0 l 1.8 0 M 0 -0.9 l 0 1.8" style="transform-origin:0px 0px;animation:blinkSoft 8.9s ease-in-out infinite reverse;animation-delay:-3.5s"></path>
       </g>
-      <g transform="translate(857.4,517.9) rotate(0) scale(8.9286,8.9286)" opacity="calc(0.82 * var(--marks,0))" fill="none" stroke="#22D3EE" stroke-width="0.25" stroke-linecap="round">
+      <g transform="translate(857.4,517.9) rotate(0) scale(8.9286,8.9286)" style="opacity:calc(0.82 * var(--marks,0))" fill="none" stroke="#22D3EE" stroke-width="0.25" stroke-linecap="round">
         <path d="M -0.9 0 l 1.8 0 M 0 -0.9 l 0 1.8" style="transform-origin:0px 0px;animation:blinkSoft 9.2s ease-in-out infinite;animation-delay:-4.2s"></path>
       </g>
-      <g transform="translate(194.4,612) rotate(0) scale(8.9286,8.9286)" opacity="calc(0.82 * var(--marks,0))" fill="none" stroke="#22D3EE" stroke-width="0.25" stroke-linecap="round">
+      <g transform="translate(194.4,612) rotate(0) scale(8.9286,8.9286)" style="opacity:calc(0.82 * var(--marks,0))" fill="none" stroke="#22D3EE" stroke-width="0.25" stroke-linecap="round">
         <path d="M -0.9 0 l 1.8 0 M 0 -0.9 l 0 1.8" style="transform-origin:0px 0px;animation:blinkSoft 9.5s ease-in-out infinite reverse;animation-delay:-4.9s"></path>
       </g>
-      <g transform="translate(713.6,793) rotate(0) scale(8.9286,8.9286)" opacity="calc(0.82 * var(--marks,0))" fill="none" stroke="#22D3EE" stroke-width="0.25" stroke-linecap="round">
+      <g transform="translate(713.6,793) rotate(0) scale(8.9286,8.9286)" style="opacity:calc(0.82 * var(--marks,0))" fill="none" stroke="#22D3EE" stroke-width="0.25" stroke-linecap="round">
         <path d="M -0.9 0 l 1.8 0 M 0 -0.9 l 0 1.8" style="transform-origin:0px 0px;animation:blinkSoft 9.8s ease-in-out infinite;animation-delay:-5.6s"></path>
       </g>
-      <g transform="translate(476.7,217.6) rotate(0) scale(8.9286,8.9286)" opacity="calc(0.82 * var(--marks,0))" fill="none" stroke="#22D3EE" stroke-width="0.25" stroke-linecap="round">
+      <g transform="translate(476.7,217.6) rotate(0) scale(8.9286,8.9286)" style="opacity:calc(0.82 * var(--marks,0))" fill="none" stroke="#22D3EE" stroke-width="0.25" stroke-linecap="round">
         <path d="M 0 -0.55 l 0.55 0.55 l -0.55 0.55 l -0.55 -0.55 z" style="transform-origin:0px 0px;animation:blinkSoft 10.1s ease-in-out infinite reverse;animation-delay:-6.3s"></path>
       </g>
-      <g transform="translate(726.8,747.6) rotate(0) scale(8.9286,8.9286)" opacity="calc(0.82 * var(--marks,0))" fill="none" stroke="#22D3EE" stroke-width="0.25" stroke-linecap="round">
+      <g transform="translate(726.8,747.6) rotate(0) scale(8.9286,8.9286)" style="opacity:calc(0.82 * var(--marks,0))" fill="none" stroke="#22D3EE" stroke-width="0.25" stroke-linecap="round">
         <circle cx="0" cy="0" r="0.4" style="transform-origin:0px 0px;animation:blinkSoft 10.4s ease-in-out infinite;animation-delay:-7.0s"></circle>
       </g>
-      <g transform="translate(432.4,899.6) rotate(0) scale(8.9286,8.9286)" opacity="calc(0.82 * var(--marks,0))" fill="none" stroke="#22D3EE" stroke-width="0.25" stroke-linecap="round">
+      <g transform="translate(432.4,899.6) rotate(0) scale(8.9286,8.9286)" style="opacity:calc(0.82 * var(--marks,0))" fill="none" stroke="#22D3EE" stroke-width="0.25" stroke-linecap="round">
         <circle cx="0" cy="0" r="0.35" style="transform-origin:0px 0px;animation:blinkSoft 10.7s ease-in-out infinite reverse;animation-delay:-7.7s"></circle>
       </g>
-      <g transform="translate(771.5,187.7) rotate(-15) scale(8.8750,8.8750)" opacity="calc(0.74 * var(--marks,0))" fill="none" stroke="#22D3EE" stroke-width="0.22" stroke-linecap="round">
+      <g transform="translate(771.5,187.7) rotate(-15) scale(8.8750,8.8750)" style="opacity:calc(0.74 * var(--marks,0))" fill="none" stroke="#22D3EE" stroke-width="0.22" stroke-linecap="round">
         <path d="M -0.99 -5.61 A 5.7 5.7 0 1 1 -0.99 5.61" stroke="url(#arcFadeV)" stroke-width="0.32" stroke-dasharray="1.1 0.6" style="animation:marchDash 3.2s linear infinite"></path>
       </g>
-      <g transform="translate(148.0,419.9) rotate(40) scale(9.8214,9.8214)" opacity="calc(0.74 * var(--marks,0))" fill="none" stroke="#22D3EE" stroke-width="0.22" stroke-linecap="round">
+      <g transform="translate(148.0,419.9) rotate(40) scale(9.8214,9.8214)" style="opacity:calc(0.74 * var(--marks,0))" fill="none" stroke="#22D3EE" stroke-width="0.22" stroke-linecap="round">
         <path d="M 1.08 6.11 A 6.2 6.2 0 1 1 1.08 -6.11" stroke="url(#arcFadeV)" stroke-width="0.32" stroke-dasharray="1.1 0.6" style="animation:marchDash 3.6s linear infinite reverse"></path>
       </g>
-      <g transform="translate(858.4,513.3) rotate(-5) scale(8.9286,8.9286)" opacity="calc(0.74 * var(--marks,0))" fill="none" stroke="#22D3EE" stroke-width="0.22" stroke-linecap="round">
+      <g transform="translate(858.4,513.3) rotate(-5) scale(8.9286,8.9286)" style="opacity:calc(0.74 * var(--marks,0))" fill="none" stroke="#22D3EE" stroke-width="0.22" stroke-linecap="round">
         <path d="M -0.33 -3.79 A 3.8 3.8 0 1 1 -0.33 3.79" stroke="url(#arcFadeV)" stroke-width="0.32" stroke-dasharray="1.1 0.6" style="animation:marchDash 2.8s linear infinite"></path>
       </g>
-      <g transform="translate(357.2,823.7) rotate(55) scale(8.9286,8.9286)" opacity="calc(0.74 * var(--marks,0))" fill="none" stroke="#22D3EE" stroke-width="0.22" stroke-linecap="round">
+      <g transform="translate(357.2,823.7) rotate(55) scale(8.9286,8.9286)" style="opacity:calc(0.74 * var(--marks,0))" fill="none" stroke="#22D3EE" stroke-width="0.22" stroke-linecap="round">
         <path d="M 3.46 -2 A 4 4 0 0 1 -3.46 2" stroke="url(#arcFadeH)" stroke-width="0.32" stroke-dasharray="1.1 0.6" style="animation:marchDash 4s linear infinite reverse"></path>
       </g>
-      <g transform="translate(713.0,797.1) rotate(5) scale(8.9286,8.9286)" opacity="calc(0.74 * var(--marks,0))" fill="none" stroke="#22D3EE" stroke-width="0.22" stroke-linecap="round">
+      <g transform="translate(713.0,797.1) rotate(5) scale(8.9286,8.9286)" style="opacity:calc(0.74 * var(--marks,0))" fill="none" stroke="#22D3EE" stroke-width="0.22" stroke-linecap="round">
         <path d="M 2.64 -3.77 A 4.6 4.6 0 0 1 -1.19 4.44" stroke="url(#arcFadeV)" stroke-width="0.32" stroke-dasharray="1.1 0.6" style="animation:marchDash 3.4s linear infinite"></path>
       </g>
     </svg>
 
     <sc-for list="{{ layers }}" as="l">
-      <div style="{{ l.aStyle }}">
+      <div data-gl="{{ l.i }}" style="{{ l.aStyle }}">
         <div data-hlid="{{ l.i }}" style="{{ l.hStyle }}">
           <div style="{{ l.sStyle }}">
             <div style="{{ l.pStyle }}">
@@ -217,7 +224,7 @@ body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
       </div>
     </sc-for>
 
-    <svg viewBox="0 0 1254 1254" style="position:absolute;inset:0;width:100%;height:100%;z-index:80;pointer-events:none;overflow:visible;filter:drop-shadow(0 0 5px rgba(255,255,255,0.20));opacity:var(--triOn,0)">
+    <svg data-v="tri" viewBox="0 0 1254 1254" style="position:absolute;inset:0;width:100%;height:100%;z-index:80;pointer-events:none;overflow:visible;filter:drop-shadow(0 0 5px rgba(255,255,255,0.20));opacity:var(--triOn,0)">
       <g fill="#FFFFFF" stroke="#FFFFFF" stroke-linejoin="round" stroke-miterlimit="6" stroke-linecap="round" style="stroke-width:var(--lw,16)">
         <g style="{{ tri1GStyle }}"><path d="M849.95,553.74l111.75,-333.62c3.69,-11.19,-7.98,-21.12,-18.48,-15.8L669.86,350.9c-8.04,4.29,-10.18,13.66,-3.75,21.16l161.59,184.91C834.11,564.72,846.81,563.31,849.95,553.74Z" pathLength="1" style="fill-opacity:calc(var(--fill,0) * var(--f1,0));stroke-dasharray:1;stroke-dashoffset:var(--k1,calc(1 - var(--t1,0)));opacity:var(--o1,var(--t1,0));transform-origin:648px 608px;transform:scale(calc(0.97 + 0.15 * var(--t1,0)))"></path></g>
         <g style="{{ tri2GStyle }}"><path d="M345.09,551.86l445.37,65.12c12.6,1.61,20.64,-12.86,11.53,-23.04l-176.58,-205.26c-5.1,-5.9,-11.79,-7.5,-18.76,-4.01l-265.02,142.02C329.81,532.58,330.88,549.73,345.09,551.86Z" pathLength="1" style="fill-opacity:calc(var(--fill,0) * var(--f2,0));stroke-dasharray:1;stroke-dashoffset:var(--k2,calc(1 - var(--t2,0)));opacity:var(--o2,var(--t2,0));transform-origin:648px 608px;transform:scale(calc(0.97 + 0.15 * var(--t2,0)))"></path></g>
@@ -235,6 +242,9 @@ body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 class Component extends DCLogic {
   SEED = [{"s":"banano-vertical.png","l":34.57,"t":59.61,"w":11.39,"h":13.43,"z":15,"r":281,"f":1,"sw":"rotA","sd":8.4,"sy":-1.1,"g0":1.706,"g1":3.837,"ax":43.14,"ay":64.11},{"s":"banano-diag.png","l":31.29,"t":55.53,"w":11.75,"h":13.96,"z":16,"r":148,"f":1,"sw":"rotB","sd":8.77,"sy":-2.73,"g0":2.148,"g1":4.28,"ax":39.08,"ay":62.79},{"s":"banano-vertical.png","l":34.04,"t":48.28,"w":12.75,"h":15.09,"z":17,"r":-26,"f":1,"sw":"rotC","sd":9.14,"sy":-4.36,"g0":1.329,"g1":3.46,"ax":41.05,"ay":63.67},{"s":"rama-curva.png","l":67.3,"t":20.47,"w":23,"h":27.1,"z":18,"r":57,"f":1,"sw":"rotD","sd":9.51,"sy":-5.99,"g0":3.189,"g1":5.32,"ax":67.4,"ay":42.26},{"s":"s07-center-left.png","l":65.98,"t":15.01,"w":29.1,"h":34.3,"z":19,"r":89,"f":1,"sw":"rotA","sd":9.88,"sy":-7.62,"g0":3.255,"g1":5.386,"ax":69.15,"ay":37.32},{"s":"s01-lower-center.png","l":57.98,"t":43.16,"w":23.03,"h":27.16,"z":20,"r":183,"f":1,"sw":"rotB","sd":10.25,"sy":-9.25,"g0":1.394,"g1":3.525,"ax":65.31,"ay":49.07},{"s":"banano-vertical.png","l":34.45,"t":51.66,"w":14.84,"h":17.49,"z":21,"r":-67,"f":-1,"sw":"rotC","sd":10.62,"sy":-1.48,"g0":1.075,"g1":3.206,"ax":44.24,"ay":66.85},{"s":"hoja-banano.png","l":69.39,"t":56.82,"w":18,"h":21.2,"z":22,"r":229,"f":1,"sw":"rotD","sd":10.99,"sy":-3.11,"g0":2.214,"g1":4.345,"ax":73.98,"ay":64.22},{"s":"hoja-teal-grande.png","l":66.2,"t":39.49,"w":19.46,"h":22.94,"z":24,"r":138,"f":1,"sw":"rotA","sd":11.36,"sy":-4.74,"g0":2.025,"g1":4.157,"ax":65.09,"ay":48.85},{"s":"rama-teal-chica.png","l":58.27,"t":46.39,"w":14.57,"h":17.2,"z":25,"r":12,"f":1,"sw":"rotB","sd":11.73,"sy":-6.37,"g0":1.009,"g1":3.14,"ax":62.57,"ay":57.96},{"s":"erased-L7.png","l":53.38,"t":51.78,"w":26.6,"h":31.4,"z":26,"r":-3,"f":1,"sw":"rotC","sd":12.1,"sy":-8,"g0":1.263,"g1":3.394,"ax":73.56,"ay":78.27},{"s":"erased-L51.png","l":67.59,"t":5.66,"w":14.87,"h":17.42,"z":27,"r":386,"f":-1,"sw":"rotD","sd":8.4,"sy":-9.63,"g0":3.419,"g1":5.55,"ax":78.14,"ay":8.27,"front":1},{"s":"hoja-azul-oscura.png","l":24.96,"t":41.92,"w":14.1,"h":16.64,"z":36,"r":9,"f":1,"sw":"rotA","sd":8.77,"sy":-1.86,"g0":1.198,"g1":3.329,"ax":36.22,"ay":53.13},{"s":"palma.png","l":45.5,"t":73.92,"w":18,"h":21.2,"z":37,"r":211,"f":1,"sw":"rotB","sd":9.14,"sy":-3.49,"g0":2.812,"g1":4.943,"ax":54.01,"ay":78.49},{"s":"banano-vertical.png","l":43.61,"t":8.59,"w":17.86,"h":21.15,"z":38,"r":36,"f":1,"sw":"rotC","sd":9.51,"sy":-5.12,"g0":2.935,"g1":5.066,"ax":49.95,"ay":35.02},{"s":"hoja-palma-ancha.png","l":5.37,"t":32.2,"w":26,"h":30.7,"z":39,"r":-45,"f":1,"sw":"rotD","sd":9.88,"sy":-6.75,"g0":3.001,"g1":5.132,"ax":30.3,"ay":46.54},{"s":"s01-lower-center.png","l":29.5,"t":8.28,"w":23.18,"h":27.43,"z":40,"r":7,"f":1,"sw":"rotA","sd":10.25,"sy":-8.38,"g0":1.771,"g1":3.902,"ax":48.51,"ay":43.34},{"s":"banano-diag.png","l":20.61,"t":34.08,"w":12.41,"h":14.57,"z":41,"r":171,"f":1,"sw":"rotB","sd":10.62,"sy":-10.01,"g0":1.96,"g1":4.091,"ax":32.93,"ay":44.79},{"s":"banano-vertical.png","l":56.82,"t":16.46,"w":19.27,"h":22.74,"z":42,"r":64,"f":1,"sw":"rotC","sd":10.99,"sy":-2.24,"g0":3.312,"g1":5.443,"ax":59.06,"ay":37.54},{"s":"rama-diag-verde.png","l":54.2,"t":9.16,"w":17.48,"h":20.59,"z":43,"r":54,"f":1,"sw":"rotD","sd":11.36,"sy":-3.87,"g0":3.378,"g1":5.509,"ax":58.84,"ay":29.75},{"s":"hoja-azul-oscura.png","l":36.19,"t":67.06,"w":17.7,"h":20.9,"z":44,"r":273,"f":1,"sw":"rotA","sd":11.73,"sy":-5.5,"g0":1.837,"g1":3.968,"ax":46.1,"ay":71.68},{"s":"erased-L49.png","l":57.68,"t":30.93,"w":15.82,"h":18.73,"z":45,"r":247,"f":1,"sw":"rotB","sd":12.1,"sy":-7.13,"g0":1.64,"g1":3.771,"ax":66.94,"ay":33.44},{"s":"erased-L48.png","l":48.42,"t":28.21,"w":26.23,"h":31.02,"z":46,"r":97,"f":1,"sw":"rotC","sd":8.4,"sy":-8.76,"g0":0.886,"g1":3.017,"ax":58.86,"ay":36.82},{"s":"s07-center-left.png","l":25.5,"t":52.13,"w":29.8,"h":35.06,"z":47,"r":-82,"f":1,"sw":"rotD","sd":8.77,"sy":-10.39,"g0":1.517,"g1":3.648,"ax":45.44,"ay":68.83},{"s":"erased-L45.png","l":64.07,"t":25.75,"w":26,"h":30.7,"z":48,"r":17,"f":1,"sw":"rotA","sd":9.14,"sy":-2.62,"g0":2.083,"g1":4.214,"ax":85.99,"ay":46.49},{"s":"sprig-clara-1.png","l":45,"t":77.06,"w":10.34,"h":12.19,"z":49,"r":191,"f":1,"sw":"rotB","sd":9.51,"sy":-4.25,"g0":2.87,"g1":5.001,"ax":47.64,"ay":75.85},{"s":"s07-center-left.png","l":33.25,"t":24.06,"w":37.22,"h":43.9,"z":49,"r":6,"f":1,"sw":"rotC","sd":9.88,"sy":-5.88,"g0":0.632,"g1":2.763,"ax":52.8,"ay":58.73},{"s":"erased-L41.png","l":54.93,"t":73.65,"w":10.7,"h":12.6,"z":49,"r":111,"f":1,"sw":"rotD","sd":10.25,"sy":-7.51,"g0":1.894,"g1":4.025,"ax":55.87,"ay":75.19},{"s":"rama-diag-teal.png","l":47.04,"t":67.11,"w":10.6,"h":12.4,"z":67,"r":143,"f":1,"sw":"rotA","sd":10.62,"sy":-9.14,"g0":1.452,"g1":3.583,"ax":50.05,"ay":68.94},{"s":"erased-L29.png","l":37.86,"t":64.22,"w":26.9,"h":31.86,"z":68,"r":6,"f":1,"sw":"rotB","sd":10.99,"sy":-1.37,"g0":3.058,"g1":5.189,"ax":49.51,"ay":82.33,"front":1},{"s":"sprig-clara-2.png","l":53.03,"t":51.61,"w":8.12,"h":9.61,"z":69,"r":163,"f":-1,"sw":"rotC","sd":11.36,"sy":-3,"g0":0.952,"g1":3.083,"ax":52.47,"ay":58.84},{"s":"rama-diag-teal.png","l":43.95,"t":50.43,"w":10.8,"h":12.7,"z":70,"r":162,"f":1,"sw":"rotD","sd":11.73,"sy":-4.63,"g0":0.82,"g1":2.952,"ax":51.04,"ay":68.94},{"s":"sprig-clara-3.png","l":32.52,"t":43.96,"w":8.92,"h":10.69,"z":71,"r":-14,"f":1,"sw":"rotA","sd":12.1,"sy":-6.26,"g0":0.755,"g1":2.886,"ax":39.63,"ay":53.57},{"s":"erased-L43.png","l":43.48,"t":42.88,"w":18.72,"h":22.1,"z":60,"r":0,"f":1,"sw":"rotB","sd":8.4,"sy":-7.89,"g0":0.698,"g1":2.829,"ax":53.35,"ay":55.87},{"s":"erased-L59.png","l":20.15,"t":24.54,"w":25.91,"h":30.59,"z":73,"r":1,"f":1,"sw":"rotC","sd":8.77,"sy":-9.52,"g0":1.583,"g1":3.714,"ax":34.05,"ay":26.11},{"s":"trio-teal.png","l":29.57,"t":20.13,"w":17.46,"h":20.65,"z":74,"r":-89,"f":1,"sw":"rotD","sd":9.14,"sy":-1.75,"g0":3.124,"g1":5.255,"ax":43.86,"ay":32.27,"front":1},{"s":"sprig-clara-5.png","l":49.14,"t":27.7,"w":18,"h":21.2,"z":75,"r":10,"f":1,"sw":"rotA","sd":9.51,"sy":-3.38,"g0":1.14,"g1":3.271,"ax":62.15,"ay":29.15},{"s":"rama-diag-teal.png","l":53.53,"t":56.67,"w":11.4,"h":13.4,"z":76,"r":-30,"f":1,"sw":"rotB","sd":10.8,"sy":-5,"g0":1.15,"g1":3.25,"ax":61.6,"ay":56.73,"front":1},{"s":"rama-cascada-teal.png","l":46.35,"t":54.8,"w":10.5,"h":18,"r":-6,"f":1,"z":58,"sw":"rotB","sd":10.4,"sy":-2.2,"g0":0.9,"g1":3,"ax":47.38,"ay":55.74},{"s":"rama-vertical-mixta.png","l":43.9,"t":63,"w":8.6,"h":13,"r":176,"f":1,"z":59,"sw":"rotC","sd":9.7,"sy":-6.1,"g0":1.05,"g1":3.15,"ax":46.74,"ay":63.4},{"s":"rama-gruesa.png","l":39.4,"t":30,"w":9.6,"h":14.4,"r":112,"f":-1,"z":57,"sw":"rotA","sd":11.1,"sy":-4.4,"g0":0.75,"g1":2.85,"ax":37.5,"ay":35.32},{"s":"hoja-teal-grande.png","l":33.7,"t":40.4,"w":13,"h":14.8,"r":-62,"f":1,"z":77,"sw":"rotD","sd":10.1,"sy":-3.3,"g0":0.85,"g1":2.95,"front":1,"ax":48.16,"ay":47.91},{"s":"erased-L58.png","l":38.8,"t":60.4,"w":13.6,"h":16,"r":24,"f":1,"z":78,"sw":"rotA","sd":9.3,"sy":-5.2,"g0":1.1,"g1":3.2,"front":1,"ax":49.99,"ay":74.21},{"s":"hoja-teal-grande.png","l":70.4,"t":25.6,"w":9.2,"h":10.4,"r":158,"f":-1,"z":79,"sw":"rotB","sd":10.7,"sy":-7.4,"g0":1.25,"g1":3.35,"front":1,"ax":75.51,"ay":25.21},{"s":"hoja-azul-oscura.png","l":54.8,"t":66.4,"w":11.6,"h":8,"r":-118,"f":1,"z":80,"sw":"rotC","sd":11.4,"sy":-1.9,"g0":1.4,"g1":3.5,"front":1,"ax":61.21,"ay":63.9}];
   KEY = 'atimi_sym_v11';
+  // 28/09/2026: hojas al tamaño al que se dibujan y con el filtro de color del export (saturate(.86) brightness(.84))
+  // horneado en los píxeles (45 filtros CSS vivos menos). Cambiar la versión si se regeneran.
+  ASSET_V = '20260928-1';
   CORE = { x: 52.3, y: 51.4 };
   TRI_C = [[824.3, 401.5], [550.7, 516.8], [680.9, 803.4]];
   state = { layers: this.SEED.map(o => Object.assign({}, o)), mode: 'anim', sel: 0, pin: false, msg: '', panelOpen: true, allPins: true, triT: [{"dx":0,"dy":0,"rot":0,"scl":1},{"dx":0,"dy":0,"rot":0,"scl":1},{"dx":0,"dy":0,"rot":0,"scl":1}], triSel: 0, triReady: false };
@@ -244,7 +254,7 @@ class Component extends DCLogic {
   assetUrl(f) {
     const R = typeof window !== 'undefined' && window.__resources;
     const k = 'leaf_' + f.replace(/[^a-zA-Z0-9]/g, '_');
-    return (R && R[k]) || ('./assets/' + f.replace(/\.png$/i, '.webp'));
+    return (R && R[k]) || ('./assets/' + f.replace(/\.png$/i, '.webp') + '?v=' + this.ASSET_V);
   }
   loadAlpha(src) {
     if (this.alpha[src]) return;
@@ -318,6 +328,7 @@ class Component extends DCLogic {
     return Math.sqrt(best);
   }
   candidates(p) {
+    if (!this.alphaOn) { this.alphaOn = true; this.SEED.forEach(o => this.loadAlpha(o.s)); }
     const Ls = this.state.layers;
     const hits = [];
     for (let i = 0; i < Ls.length; i++) if (this.hitsLayer(Ls[i], p)) hits.push(i);
@@ -346,14 +357,23 @@ class Component extends DCLogic {
   }
 
   componentDidMount() {
-    this.SEED.forEach(o => this.loadAlpha(o.s));
-    // hold the clock at 0 until every leaf image is downloaded, so on slow/mobile connections
-    // the triangles never draw before the leaves can grow with them (3.5 s safety fallback)
+    // 28/09/2026 (fluidez en Safari): las siluetas de las hojas (loadAlpha: 31 drawImage + getImageData en el hilo
+    // principal, justo mientras carga la página de Atimi) solo las usa el modo de edición: se leen al entrar en él
+    // (candidates), no al montar.
+    this.bindNodes();
+    // hold the clock at 0 until every leaf image is downloaded AND decoded, so on slow/mobile connections the triangles
+    // never draw before the leaves can grow with them (3.5 s safety fallback). 28/09/2026: decode(), para que ninguna
+    // hoja se decodifique a mitad de la intro (Safari decodifica al pintar por primera vez).
     this.ready = false;
     { const srcs = [...new Set(this.SEED.map(o => o.s))]; let nDone = 0;
-      const done = () => { if (++nDone >= srcs.length) this.ready = true; };
-      srcs.forEach(s => { const im = new Image(); im.onload = im.onerror = done; im.src = this.assetUrl ? this.assetUrl(s) : './assets/' + s; });
-      this.readyTimer = setTimeout(() => { this.ready = true; }, 3500); }
+      const ok = () => { if (!this.ready) { this.ready = true; this.tryStart(); } };
+      const done = () => { if (++nDone >= srcs.length) ok(); };
+      this.preload = srcs.map(s => {
+        const im = new Image(); im.src = this.assetUrl(s);
+        (im.decode ? im.decode() : new Promise((res, rej) => { im.onload = res; im.onerror = rej; })).then(done, done);
+        return im;
+      });
+      this.readyTimer = setTimeout(ok, 3500); }
     // Integración Atimi: dentro del iframe, no correr el reloj mientras la página anfitriona tenga su
     // velo de carga (html.atimi-first-load); si no, la intro avanza sin que nadie la vea.
     this.hostReady = true;
@@ -362,7 +382,7 @@ class Component extends DCLogic {
       const H = P && P.document && P.document.documentElement;
       if (H && H.classList.contains('atimi-first-load')) {
         this.hostReady = false;
-        const go = () => { if (!this.hostReady) { this.hostReady = true; this.last = performance.now(); } };
+        const go = () => { if (!this.hostReady) { this.hostReady = true; if (this.diag) this.diag.velo = performance.now(); this.tryStart(); } };
         P.addEventListener('atimi-first-load-complete', go, { once: true });
         const poll = () => { if (!H.classList.contains('atimi-first-load')) go(); else if (!this.hostReady) this.hostPoll = setTimeout(poll, 120); };
         this.hostPoll = setTimeout(poll, 120);
@@ -373,27 +393,34 @@ class Component extends DCLogic {
       }
     } catch (e) { this.hostReady = true; }
     this.t = 0;
-    this.last = performance.now();
+    // 28/09/2026 (fluidez en Safari): tres fases.
+    //  'wait'  antes de arrancar: sin bucle y con las animaciones CSS en pausa (antes el bucle y 74 animaciones
+    //          corrían detrás del velo, compitiendo con la lectura de la página de Atimi en el mismo hilo);
+    //  'intro' el bucle de siempre;
+    //  'idle'  terminada la intro el bucle se DETIENE: siguen vivas las animaciones CSS (vaivén, puntos, marcas),
+    //          los números cada 250 ms y el hover con su propio mini-bucle (kickHover).
+    this.phase = 'wait';
     this.loop = (now) => {
-      const dt = Math.min(now - this.last, 250);
+      this.raf = 0;
+      const real = Math.max(0, now - this.last);
       this.last = now;
       if (this.state.mode === 'edit' || this.state.mode === 'tri') {
         if (!this.frozen) { this.applyStatic(); this.frozen = true; }
       } else {
         this.frozen = false;
-        if (this.ready && this.hostReady) this.t += dt;
+        this.t += this.stepFor(real);
+        if (this.t >= this.tEnd) { this.enterIdle(); return; }
         this.apply(this.t);
-        this.stepHover(dt);
+        this.stepHover(Math.min(real, 250));
       }
       this.raf = requestAnimationFrame(this.loop);
     };
     this.apply(0);
     this.setState({ triReady: true });
-    this.raf = requestAnimationFrame(this.loop);
     window.addEventListener('pointermove', this.onWinMove);
     window.addEventListener('pointerup', this.onWinUp);
     // host page can switch the icon: iframe.contentWindow.postMessage({ atimiLogo: 'relleno' | 'contorno' }, '*')
-    this.onMsg = (e) => { const d = e && e.data; if (d && (d.atimiLogo === 'relleno' || d.atimiLogo === 'contorno')) { this.logoOverride = d.atimiLogo; if (this.paused) this.applyStatic(); } };
+    this.onMsg = (e) => { const d = e && e.data; if (d && (d.atimiLogo === 'relleno' || d.atimiLogo === 'contorno')) { this.logoOverride = d.atimiLogo; this.writeVars(this.logoVars()); } };
     window.addEventListener('message', this.onMsg);
     // transparent page background when embedded (iframe) or ?bg=transparent; ?bg=dark forces the dark ground
     try {
@@ -415,36 +442,134 @@ class Component extends DCLogic {
     // exige recargar.
     this.mq = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)');
     this.reduced = !forceMotion && !!(this.mq && this.mq.matches);
-    if (this.reduced) { this.applyStatic(); this.setPaused(true); }
+    if (this.reduced) this.applyStatic();
     // pause everything (rAF + CSS animations) when the tab is hidden or the stage is off-screen
     this.hidden = document.hidden; this.offscreen = false;
-    this.onVis = () => { this.hidden = document.hidden; this.setPaused(this.reduced || this.hidden || this.offscreen); };
+    this.onVis = () => { this.hidden = document.hidden; this.syncPause(); };
     document.addEventListener('visibilitychange', this.onVis);
     if ('IntersectionObserver' in window && this.stage.current) {
-      this.io = new IntersectionObserver(es => { this.offscreen = !es[0].isIntersecting; this.setPaused(this.reduced || this.hidden || this.offscreen); }, { threshold: 0 });
+      this.io = new IntersectionObserver(es => { this.offscreen = !es[0].isIntersecting; this.syncPause(); }, { threshold: 0 });
       this.io.observe(this.stage.current);
     }
     if (this.mq && !forceMotion && this.mq.addEventListener) {
       this.onMq = () => {
         const r = this.mq.matches; if (r === this.reduced) return;
         this.reduced = r;
-        if (r) { this.applyStatic(); this.setPaused(true); }
-        else { const tEnd = 10200 * this.dur / 15000; if (this.t < tEnd) this.t = tEnd; this.setPaused(this.hidden || this.offscreen); }
+        if (r) this.applyStatic();
+        else { if (this.t < this.tEnd) this.t = this.tEnd; this.enterIdle(); }
+        this.syncPause();
       };
       this.mq.addEventListener('change', this.onMq);
     }
+    this.initDiag();
+    this.syncPause();
+    this.tryStart();
   }
+  get tEnd() { return 10200 * this.dur / 15000; }
+  // Arranca la intro cuando las hojas están listas y el velo de Atimi ya cayó (y no hay reduced-motion).
+  tryStart() {
+    if (this.phase !== 'wait' || !this.ready || !this.hostReady || this.reduced) return;
+    this.phase = 'intro';
+    this.avgDt = 0;
+    if (this.diag) this.diag.intro = performance.now();
+    this.syncPause();
+  }
+  // Fin de la intro: composición final exacta y el bucle se detiene (28/09/2026).
+  enterIdle() {
+    this.phase = 'idle';
+    if (this.raf) { cancelAnimationFrame(this.raf); this.raf = 0; }
+    if (this.t < this.tEnd) this.t = this.tEnd;
+    this.apply(this.t);
+    if (this.diag && this.diag.intro && !this.diag.fin) this.diag.fin = performance.now();
+    if (!this.paused && !this.reduced) this.startIdle();
+    this.kickHover();
+  }
+  // Paso del reloj de la intro (28/09/2026). Normalmente es el tiempo real, igual que antes (tope 250 ms). Lo único
+  // nuevo: un cuadro SUELTO mucho más lento que los anteriores (decodificar, crear capas...) avanza como mucho
+  // 60 ms o el doble del ritmo reciente, así un tirón no se ve como un salto de la coreografía. En un equipo lento de
+  // forma pareja el ritmo reciente sube y la intro sigue en tiempo real (no se alarga, lección del 14/09).
+  stepFor(real) {
+    const prev = this.avgDt || 16.7;
+    this.avgDt = prev * 0.8 + Math.min(real, 1000) * 0.2;
+    if (real <= 60) return real;
+    return Math.min(real, Math.max(60, 2 * prev), 250);
+  }
+  startLoop() {
+    if (this.raf) return;
+    this.last = performance.now();
+    this.raf = requestAnimationFrame(this.loop);
+  }
+  // En reposo los números siguen subiendo muy despacio (como antes): se actualizan cada 250 ms en vez de en cada
+  // cuadro, y el temporizador se apaga cuando ya no cambian.
+  startIdle() {
+    if (this.idleTimer) return;
+    this.idleLast = performance.now();
+    const tick = () => {
+      this.idleTimer = 0;
+      const now = performance.now();
+      this.t += Math.min(now - this.idleLast, 1000); this.idleLast = now;
+      const t = this.t / 1000 / (this.dur / 15000);
+      const k = 1 + 0.12 * (1 - Math.exp(-(t - 7) / 60));
+      this.setNums(k);
+      if (1.12 - k > 0.0005) this.idleTimer = setTimeout(tick, 250);
+    };
+    this.idleTimer = setTimeout(tick, 250);
+  }
+  stopIdle() { if (this.idleTimer) { clearTimeout(this.idleTimer); this.idleTimer = 0; } }
+  syncPause() { this.setPaused(!!(this.reduced || this.hidden || this.offscreen || this.phase === 'wait')); }
   setPaused(p) {
     const el = this.stage.current;
     if (p === !!this.paused) return;
     this.paused = p;
     if (el) { if (p) el.setAttribute('data-paused', ''); else el.removeAttribute('data-paused'); }
-    if (p) cancelAnimationFrame(this.raf);
-    else if (!this.reduced) { this.last = performance.now(); this.raf = requestAnimationFrame(this.loop); }
+    if (p) { if (this.raf) cancelAnimationFrame(this.raf); this.raf = 0; this.stopIdle(); }
+    else if (!this.reduced) { if (this.phase === 'intro') this.startLoop(); else if (this.phase === 'idle') this.startIdle(); }
+  }
+  // ?diag=1 en la página (o en el iframe): recuadro con la fluidez medida en ESTE equipo (28/09/2026). Sin el
+  // parámetro no existe nada de esto. Mide con los intervalos entre cuadros (Safari no tiene longtask ni
+  // requestIdleCallback): cuadros por segundo, cuadros lentos durante la intro y cuánto tardó la intro de verdad.
+  initDiag() {
+    let on = false;
+    try { const q = /[?&]diag=1(&|$)/; on = q.test(window.location.search) || (window.parent !== window && q.test(window.parent.location.search)); } catch (e) {}
+    if (!on || !document.body) return;
+    const D = this.diag = { t0: performance.now(), n: 0, lentos: 0, muyLentos: 0, peor: 0, marcas: [] };
+    const box = document.createElement('div');
+    box.setAttribute('aria-hidden', 'true');
+    box.style.cssText = 'position:fixed;left:6px;top:6px;z-index:2147483647;font:11px/1.4 ui-monospace,Menlo,Consolas,monospace;color:#e6f4ef;background:rgba(0,0,0,.78);padding:6px 8px;border-radius:6px;pointer-events:none;white-space:pre';
+    document.body.appendChild(box);
+    let last = 0;
+    const tick = (now) => {
+      if (last) {
+        const d = now - last;
+        D.marcas.push(now);
+        if (this.phase === 'intro' && !this.paused) { D.n++; if (d > 33.4) D.lentos++; if (d > 50) D.muyLentos++; if (d > D.peor) D.peor = d; }
+      }
+      last = now;
+      D.raf = requestAnimationFrame(tick);
+    };
+    D.raf = requestAnimationFrame(tick);
+    const s = (ms) => (ms / 1000).toFixed(2) + ' s';
+    const pinta = () => {
+      const now = performance.now();
+      while (D.marcas.length && D.marcas[0] < now - 1000) D.marcas.shift();
+      const st = this.stage.current, px = st ? Math.round(st.getBoundingClientRect().width) : 0;
+      const ua = navigator.userAgent, m = ua.match(/Version\/[\d.]+.*Safari/) || ua.match(/(Edg|Chrome|Firefox)\/[\d.]+/);
+      box.textContent = [
+        'fase: ' + this.phase + (this.paused ? ' (pausa)' : '') + (this.reduced ? ' · reduced-motion' : ''),
+        'cuadros/s: ' + D.marcas.length,
+        'intro: ' + (D.intro ? (D.fin ? s(D.fin - D.intro) : s(now - D.intro) + '…') : '—') + ' (nominal ' + s(this.tEnd) + ')',
+        'cuadros intro: ' + D.n + ' · >33 ms: ' + D.lentos + ' · >50 ms: ' + D.muyLentos + ' · peor: ' + Math.round(D.peor) + ' ms',
+        'velo cae: ' + (D.velo ? '+' + s(D.velo - D.t0) : (this.hostReady ? 'sin velo' : 'esperando')) + ' · arranque: ' + (D.intro ? '+' + s(D.intro - D.t0) : '—'),
+        'escenario: ' + px + ' px · DPR ' + (window.devicePixelRatio || 1) + ' · ' + (m ? m[0] : ua.slice(0, 40))
+      ].join('\n');
+    };
+    pinta(); D.timer = setInterval(pinta, 500);
   }
   componentWillUnmount() {
     cancelAnimationFrame(this.raf);
     if (this.hoverRaf) cancelAnimationFrame(this.hoverRaf);
+    this.stopIdle(); clearTimeout(this.readyTimer); clearTimeout(this.hostTimer); clearTimeout(this.hostPoll);
+    if (this.diag) { cancelAnimationFrame(this.diag.raf); clearInterval(this.diag.timer); }
     if (this.io) this.io.disconnect();
     if (this.onVis) document.removeEventListener('visibilitychange', this.onVis);
     if (this.onMq) this.mq.removeEventListener('change', this.onMq);
@@ -475,9 +600,42 @@ class Component extends DCLogic {
     const el = this.stage.current; if (!el) return;
     for (const k in o) el.style.setProperty(k, String(o[k]));
   }
+  // 28/09/2026 (fluidez en Safari): cada variable se escribe SOLO en el nodo que la usa y SOLO si cambió. Antes se
+  // escribían ~69 en la raíz del escenario en cada cuadro, para siempre, y el navegador recalculaba el estilo de sus
+  // ~310 nodos. Si la plantilla cambia y falta alguna marca data-v/data-gl, se vuelve a la raíz (setVars).
+  bindNodes() {
+    const st = this.stage.current; this.nodes = null; if (!st) return;
+    const q = (sel) => st.querySelector(sel);
+    const lines = q('[data-v="lines"]'), data = q('[data-v="data"]'), marks = q('[data-v="marks"]'), tri = q('[data-v="tri"]');
+    const leaf = [];
+    st.querySelectorAll('[data-gl]').forEach(el => { leaf[+el.getAttribute('data-gl')] = el; });
+    if (!lines || !data || !marks || !tri || leaf.length !== this.state.layers.length) return;
+    const route = {};
+    const to = (keys, els) => keys.forEach(k => { route[k] = els; });
+    to(['--kd1', '--kd2', '--kd3', '--kd4', '--kd5'], [lines]);
+    to(['--fade', '--sparkf'], [lines, data]);
+    to(['--d1', '--d2', '--d3', '--d4', '--d5'], [data]);
+    to(['--data'], [data, marks]);
+    to(['--marks'], [marks]);
+    to(['--triOn', '--fill', '--lw', '--t1', '--t2', '--t3', '--o1', '--o2', '--o3', '--k1', '--k2', '--k3', '--f1', '--f2', '--f3'], [tri]);
+    this.nodes = { stage: st, route, leaf };
+  }
+  writeVars(v) {
+    const N = this.nodes;
+    if (!N) { this.setVars(v); return; }
+    for (const k in v) {
+      const s = String(v[k]);
+      const tg = k.startsWith('--gr') ? [N.leaf[+k.slice(4)] || N.stage] : (N.route[k] || [N.stage]);
+      for (let i = 0; i < tg.length; i++) {
+        const el = tg[i], c = el.__sv || (el.__sv = {});
+        if (c[k] !== s) { c[k] = s; el.style.setProperty(k, s); }
+      }
+    }
+  }
   setNums(k) {
     const el = this.stage.current; if (!el) return;
-    const put = (n, v) => { const q = el.querySelector('[data-num="' + n + '"]'); if (q) q.textContent = v; };
+    const nn = this.numNodes || (this.numNodes = [1, 2, 3, 4, 5].map(n => el.querySelector('[data-num="' + n + '"]')));
+    const put = (n, v) => { const q = nn[n - 1]; if (q && q.textContent !== v) q.textContent = v; };
     put(1, (k * 0.482).toFixed(3));
     put(2, (k * 1.07).toFixed(2) + 'k');
     put(3, '+' + (k * 38.2).toFixed(1));
@@ -506,9 +664,12 @@ class Component extends DCLogic {
       '--t1': D(1.5, 2.5), '--t2': D(1.65, 2.65), '--t3': D(1.8, 2.8),
       '--o1': O(1.5, 1.75), '--o2': O(1.65, 1.9), '--o3': O(1.8, 2.05),
       '--f1': S(2.05, 2.95), '--f2': S(2.2, 3.1), '--f3': S(2.35, 3.25),
-      '--fade': O(6.344, 10.2),
-      '--spark': Math.max(0, 1 - Math.abs(t - 2.75) / 0.704).toFixed(3)
+      '--fade': O(6.344, 10.2)
     });
+    // Destello: el filtro entero va por variable y fuera de él es 'none' (antes quedaba brightness(1) para siempre).
+    const spark = Math.max(0, 1 - Math.abs(t - 2.75) / 0.704).toFixed(3);
+    v['--sparkf'] = +spark > 0 ? 'brightness(' + (1 + 0.5 * spark) + ')' : 'none';
+    for (let n = 1; n <= 5; n++) v['--kd' + n] = 1 - v['--d' + n];
     // Firefox no acepta calc() sin unidades en stroke-dashoffset (lo deja en 0 y el triángulo sale
     // entero de golpe): el desfase del trazo va ya calculado como número simple.
     v['--k1'] = (1 - v['--t1']).toFixed(4); v['--k2'] = (1 - v['--t2']).toFixed(4); v['--k3'] = (1 - v['--t3']).toFixed(4);
@@ -518,7 +679,7 @@ class Component extends DCLogic {
       const a = this.g0min + (Ls[i].g0 - this.g0min) * 1.25 + 0.45;
       v['--gr' + i] = G(a, a + (Ls[i].g1 - Ls[i].g0));
     }
-    this.setVars(v);
+    this.writeVars(v);
     this.setNums(t < 7 ? this.out(this.seg(t, 0.188, 7)) : 1 + 0.12 * (1 - Math.exp(-(t - 7) / 60)));
   }
 
@@ -526,11 +687,12 @@ class Component extends DCLogic {
     const v = Object.assign(this.logoVars(), {
       '--data': (this.props.mostrarDatos ?? true) ? 1 : 0,
       '--d1': 1, '--d2': 1, '--d3': 1, '--d4': 1, '--d5': 1,
-      '--marks': 1, '--t1': 1, '--t2': 1, '--t3': 1, '--o1': 1, '--o2': 1, '--o3': 1, '--k1': 0, '--k2': 0, '--k3': 0, '--f1': 1, '--f2': 1, '--f3': 1, '--fade': 1, '--spark': 0
+      '--marks': 1, '--t1': 1, '--t2': 1, '--t3': 1, '--o1': 1, '--o2': 1, '--o3': 1, '--k1': 0, '--k2': 0, '--k3': 0, '--f1': 1, '--f2': 1, '--f3': 1, '--fade': 1, '--sparkf': 'none',
+      '--kd1': 0, '--kd2': 0, '--kd3': 0, '--kd4': 0, '--kd5': 0
     });
     const Ls = this.state.layers;
     for (let i = 0; i < Ls.length; i++) v['--gr' + i] = 1;
-    this.setVars(v);
+    this.writeVars(v);
     this.setNums(1);
   }
 
@@ -660,10 +822,10 @@ class Component extends DCLogic {
         tgt[i] = (cross >= 0 ? -1 : 1) * f * f * 9;
       } else tgt[i] = 0;
     }
-    if (this.reduced) this.kickHover();
+    if (!this.raf) this.kickHover();
   };
-  // With reduced motion the main loop never runs, so the hover gets its own tiny loop that only lives
-  // while a leaf is still settling (a few hundred ms per pass of the cursor), then stops.
+  // When the main loop is not running (reduced motion, and since 28/09/2026 also after the intro), the hover gets its
+  // own tiny loop that only lives while a leaf is still settling (a few hundred ms per pass of the cursor), then stops.
   kickHover() {
     if (this.hoverRaf) return;
     let last = performance.now();
@@ -699,7 +861,7 @@ class Component extends DCLogic {
   onStageLeave = () => {
     if (this.hoverBox.current) this.hoverBox.current.style.display = 'none';
     if (this.hoverTgt) this.hoverTgt = this.hoverTgt.map(() => 0);
-    if (this.reduced) this.kickHover();
+    if (!this.raf) this.kickHover();
   };
 
   edgeAnchor(L) {
@@ -747,7 +909,7 @@ class Component extends DCLogic {
       const org = 'transform-origin:' + ox + '% ' + oy + '%;';
       return {
         i,
-        imgStyle: 'width:100%;height:100%;background:url("' + this.assetUrl(L.s) + '") center center / contain no-repeat;filter:saturate(.86) brightness(.84)',
+        imgStyle: 'width:100%;height:100%;background:url("' + this.assetUrl(L.s) + '") center center / contain no-repeat',
         aStyle: 'position:absolute;pointer-events:none;left:' + L.l + '%;top:' + L.t + '%;width:' + L.w + '%;height:' + L.h + '%;z-index:' + (L.front ? 90 : L.z) + ';' + org + 'transform:scale(var(--gr' + i + ',0));opacity:var(--gr' + i + ',0)',
         hStyle: 'position:absolute;inset:0;pointer-events:none;' + org + 'will-change:transform',
         sStyle: edit ? 'position:absolute;inset:0;pointer-events:none' : 'position:absolute;inset:0;pointer-events:none;' + org + 'animation:' + L.sw + ' ' + L.sd + 's ease-in-out infinite ' + L.sy + 's',

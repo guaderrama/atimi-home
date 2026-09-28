@@ -10,7 +10,7 @@ Atimi's home page (template v500) with three interactive pieces built into it by
 
 **Live preview:** https://ivanguaderrama.studio/concepts/atimi/final/
 
-This repository is identical, file by file, to that preview (version of September 27, 2026).
+This repository is identical, file by file, to that preview (version of September 28, 2026).
 
 ## Run it locally
 
@@ -29,7 +29,7 @@ python3 -m http.server 8080
 | Path | What it is |
 |---|---|
 | `index.html` | The page (self-contained, ~13.8 MB with embedded images) plus the integration markup, styles and scripts |
-| `Atimi_Home_page_v500_assets/symbiosis-v3/` | Hero logo animation, loaded in an iframe. `poster.webp` is the still shown without JavaScript |
+| `Atimi_Home_page_v500_assets/symbiosis-v3/` | Hero logo animation, loaded in an iframe. `poster.webp` (1100×1100, transparent background) is the finished composition: it is the still shown without JavaScript, and it can be used as the hero's fallback image |
 | `Atimi_Home_page_v500_assets/symbiosis-frame-v3.css` | Size and position of the hero logo inside the hero |
 | `Atimi_Home_page_v500_assets/living-growth/` | The tree experience, loaded in an iframe: image frames, styles, and hand tracking |
 | `Atimi_Home_page_v500_assets/living-growth-integration.js` / `.css` | Connects the page's "Use hand control" / "Use touch" buttons to the tree |
@@ -68,10 +68,24 @@ Included in this repository:
   animate the hero logo, the tree and the footer logo anyway (useful for demos).
 - Without JavaScript, all text is still in the HTML and the hero and footer band show still images.
 
+## Hero performance (September 28 update)
+
+The hero logo now does much less work per frame and looks the same:
+
+- It stays idle while the page's loading screen is up.
+- Its animation loop stops once the intro ends; only light CSS motion and the pointer reaction keep running.
+- The leaf images are sized to how large they are drawn, with their colour filter baked in (0.5 MB instead
+  of 1.45 MB).
+- The blurred data lines are drawn apart from the moving dots and numbers.
+
+To measure the hero on a specific device, add `?diag=1` to the page URL. A small box over the logo shows
+frames per second, slow frames during the intro and how long the intro actually took.
+
 ## Browser testing
 
 Tested in Chromium (desktop and iPhone emulation) and Firefox. Safari on a real iPhone or Mac has not been
-tested on our side, so please check it there before launch.
+tested on our side, so please check it there before launch. The `?diag=1` numbers from Safari are the most
+useful thing to send us if something still feels slow.
 
 ## Credits
 
