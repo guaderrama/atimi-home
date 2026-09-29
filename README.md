@@ -74,8 +74,8 @@ The hero logo now does much less work per frame and looks the same:
 
 - It stays idle while the page's loading screen is up.
 - Its animation loop stops once the intro ends; only light CSS motion and the pointer reaction keep running.
-- The leaf images are sized to how large they are drawn, with their colour filter baked in (0.5 MB instead
-  of 1.45 MB).
+- The leaf images have their colour filter baked in (45 live CSS filters fewer) and are decoded before the
+  intro starts.
 - The blurred data lines are drawn apart from the moving dots and numbers.
 
 To measure the hero on a specific device, add `?diag=1` to the page URL. A small box over the logo shows
